@@ -3,8 +3,10 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"net/http"
 	"os"
 
+	"github.com/labstack/echo/v4"
 	_ "github.com/lib/pq"
 )
 
@@ -33,4 +35,10 @@ func main() {
 	}
 
 	fmt.Println("Connected to PostgreSQL database!")
+
+	e := echo.New()
+	e.GET("/health", func(c echo.Context) error {
+		return c.String(http.StatusOK, "success")
+	})
+	e.Start(":8080")
 }
